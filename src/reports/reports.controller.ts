@@ -9,9 +9,17 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateReportDto } from './create-report.dto';
+import { ReportsService } from './reports.service';
 
-@Controller()
+@Controller('report')
 export class ReportsController {
+  constructor(private reportsService: ReportsService) {}
+
+  @Get()
+  findAll() {
+    return this.reportsService.findAll();
+  }
+
   @Get(':id')
   getReport(@Param('id') id: string): string {
     return id;
@@ -19,7 +27,7 @@ export class ReportsController {
 
   @Post()
   createReport(@Body() input: CreateReportDto) {
-    return input;
+    return this.reportsService.create(input);
   }
 
   @Patch(':id')
