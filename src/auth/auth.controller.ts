@@ -1,6 +1,9 @@
+//* auth.controller.ts
+
 import {
   Body,
   Controller,
+  Get,
   Post,
   Request,
   UseGuards,
@@ -36,5 +39,11 @@ export class AuthController {
       userId: request.user.id,
       token: this.authService.generateUserToken(request.user),
     };
+  }
+
+  @Get()
+  @UseGuards(AuthGuard('jwt-strategy'))
+  async getUser(@Request() request){
+    return request.user;
   }
 }
