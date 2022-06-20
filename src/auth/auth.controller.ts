@@ -1,7 +1,14 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AuthService } from './auth.service';
 import { User } from './user.entity';
 
 @Controller('auth')
@@ -9,6 +16,7 @@ export class AuthController {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly authService: AuthService,
   ) {}
 
   @Post()
@@ -26,7 +34,7 @@ export class AuthController {
   async login(@Request() request: any) {
     return {
       userId: request.user.id,
-      token: 'todo-add-token',
+      token: this.authService.generateUserToken(request.user),
     };
   }
 }
