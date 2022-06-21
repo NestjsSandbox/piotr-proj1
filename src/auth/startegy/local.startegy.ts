@@ -5,11 +5,12 @@ import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Strategy } from 'passport-local';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../../user/user.entity';
+import  * as bcrypt from "bcrypt";
 
 // Step-1 create the LocalStartegy class
 @Injectable()
-export class LocalStartegy extends PassportStrategy(Strategy,'login-user') {
+export class LocalStartegy extends PassportStrategy(Strategy,'local-startegy-login') {
   // Step-2 wireup a dependency to the database repository
   constructor(
     @InjectRepository(User)
@@ -34,10 +35,9 @@ export class LocalStartegy extends PassportStrategy(Strategy,'login-user') {
     }
 
     //Step-4-C Implement the validation of the password
-    //! This is temporary do not store password in db
-    //TODO Refactor code here to use Bcrypt
+    //! a better implementation is to salt+hash password not just bcrypt-hash
 
-    if (user.password !== password) {
+    if (!(await bcrypt.compare(password, user.password))) {
         console.log(`Invalid credentials`);
         throw new UnauthorizedException();
     }

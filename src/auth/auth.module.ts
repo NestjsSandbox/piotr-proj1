@@ -5,9 +5,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt.startegy';
-import { LocalStartegy } from './local.startegy';
-import { User } from './user.entity';
+import { JwtStrategy } from './startegy/jwt.startegy';
+import { LocalStartegy } from './startegy/local.startegy';
+import { User } from '../user/user.entity';
 
 @Module({
   imports: [

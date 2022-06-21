@@ -12,7 +12,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
-import { User } from './user.entity';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from '../user/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -23,27 +24,21 @@ export class AuthController {
   ) {}
 
   @Post()
-  async createUser(@Body() body) {
-    const user = this.userRepository.create({
-      username: body.username,
-      password: body.password,
-      email: 'lala',
-    });
-    return await this.userRepository.save(user);
-  }
+  async createUser(@Body() body) {}
 
   @Post('login')
-  @UseGuards(AuthGuard('login-user'))
-  async login(@Request() request: any) {
+  @UseGuards(AuthGuard('local-startegy-login'))
+  //async login(@Request() request: any) {
+  async login(@CurrentUser() user: User) {
     return {
-      userId: request.user.id,
-      token: this.authService.generateUserToken(request.user),
+      userId: user.id,
+      token: this.authService.generateUserToken(user),
     };
   }
 
   @Get()
   @UseGuards(AuthGuard('jwt-strategy'))
-  async getUser(@Request() request){
-    return request.user;
+  async getUser(@CurrentUser() user: User) {
+    return user;
   }
 }

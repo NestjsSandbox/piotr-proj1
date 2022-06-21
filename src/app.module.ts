@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { ReportsModule } from './reports/reports.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
 import ormConfig from './config/orm.config';
 import ormProdConfig from './config/orm-prod.config';
 
@@ -22,6 +23,7 @@ import ormProdConfig from './config/orm-prod.config';
     }),
     ReportsModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [],

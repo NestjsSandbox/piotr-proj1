@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateReportDto } from './create-report.dto';
+import { CreateReportDto } from './dto/create-report.dto';
 import { ReportsService } from './reports.service';
 
 @Controller('report')
