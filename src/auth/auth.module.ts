@@ -25,5 +25,6 @@ import { User } from '../user/user.entity';
   ],
   providers: [LocalStartegy, JwtStrategy, AuthService],
   controllers: [AuthController],
+  exports: [JwtModule]
 })
 export class AuthModule {}
